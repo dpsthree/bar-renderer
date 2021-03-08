@@ -22,10 +22,12 @@ export class BarRendererComponent {
 
   @Input() set bars(newBars) {
     if (newBars) {
-      this.clearStage();
       this.renderBars(newBars);
     }
   }
+
+  leftBarGraphics = [];
+  rightBarGraphics = [];
 
   private app = new PIXI.Application({
     width: canvasWidth,
@@ -34,27 +36,29 @@ export class BarRendererComponent {
 
   constructor(elRef: ElementRef, private appService: AppService) {
     elRef.nativeElement.appendChild(this.app.view);
+    for (let x = 0; x < 64; x++) {
+      let rectangle = new PIXI.Graphics();
+      rectangle.beginFill(0x66ccff);
+      rectangle.drawRect(0, barHeight * x, 1, barHeight);
+      rectangle.endFill();
+      this.app.stage.addChild(rectangle);
+      this.leftBarGraphics.push(rectangle);
+
+      rectangle = new PIXI.Graphics();
+      rectangle.beginFill(0x66ccff);
+      rectangle.drawRect(0, barHeight * x, 1, barHeight);
+      rectangle.endFill();
+      this.app.stage.addChild(rectangle);
+      this.rightBarGraphics.push(rectangle);
+    }
   }
 
   renderBars(bars) {
     bars.forEach((bar, index) => {
-      let rectangle = new PIXI.Graphics();
-      rectangle.beginFill(0x66ccff);
-      rectangle.drawRect(0, barHeight * index, bar, barHeight);
-      rectangle.endFill();
-      this.app.stage.addChild(rectangle);
-      rectangle = new PIXI.Graphics();
-      rectangle.beginFill(0x66ccff);
-      rectangle.drawRect(canvasWidth - bar, barHeight * index, bar, barHeight);
-      rectangle.endFill();
-      this.app.stage.addChild(rectangle);
+      this.leftBarGraphics[index].width = bar;
+      this.rightBarGraphics[index].width = bar;
+      this.rightBarGraphics[index].x = canvasWidth - bar;
     });
     this.drawingTime = this.appService.updateTimes();
-  }
-
-  clearStage() {
-    for (var i = this.app.stage.children.length - 1; i >= 0; i--) {
-      this.app.stage.removeChild(this.app.stage.children[i]);
-    }
   }
 }
