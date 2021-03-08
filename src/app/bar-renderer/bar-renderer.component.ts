@@ -3,8 +3,6 @@ import {
   ElementRef,
   Input,
   ChangeDetectionStrategy,
-  NgZone,
-  Output,
 } from "@angular/core";
 import * as PIXI from "pixi.js";
 import { AppService } from "../app.service";
@@ -20,7 +18,7 @@ const canvasWidth = 500;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BarRendererComponent {
-  drawingTime
+  drawingTime;
 
   @Input() set bars(newBars) {
     if (newBars) {
@@ -51,7 +49,7 @@ export class BarRendererComponent {
       rectangle.endFill();
       this.app.stage.addChild(rectangle);
     });
-    this.drawingTime = this.appService.updateTimes()
+    this.drawingTime = this.appService.updateTimes();
   }
 
   clearStage() {
