@@ -1,0 +1,9 @@
+/* Add application styles & imports to this file! */
+
+app-bar-renderer,
+app-bar-renderer-native {
+  display: block;
+  canvas {
+    margin-bottom: 10px;
+  }
+}

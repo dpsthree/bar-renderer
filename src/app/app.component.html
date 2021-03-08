@@ -1,0 +1,15 @@
+<ng-container *ngIf="pixiRenderer">
+  <p>Pixi Renderer</p>
+  <app-bar-renderer [bars]="bars"></app-bar-renderer>
+</ng-container>
+
+<ng-container *ngIf="nativeRenderer">
+  <p>Native Renderer</p>
+  <app-bar-renderer-native
+    *ngIf="nativeRenderer"
+    [bars]="bars"
+  ></app-bar-renderer-native>
+</ng-container>
+
+<button (click)="toggleRenderer()">Toggle renderer</button>
+<p>Total Render time (Browser Limited): {{t1 - t0}} ms </p>
